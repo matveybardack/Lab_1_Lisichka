@@ -55,6 +55,12 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="BoolToColorConverter.cs" />
+    <Compile Include="IOperationViewModel.cs" />
+    <Compile Include="MainViewModel.cs" />
+    <Compile Include="OperationViewModels.cs" />
+    <Compile Include="RelayCommand.cs" />
+    <Compile Include="ViewModelBase.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -93,6 +99,12 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\ClassLibraryIContract\ClassLibraryIContract.csproj">
+      <Project>{fd3a9340-ed53-4a0e-96ca-9aa5fe1692eb}</Project>
+      <Name>ClassLibraryIContract</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

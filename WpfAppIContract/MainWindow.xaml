@@ -1,0 +1,98 @@
+﻿<Window x:Class="WpfAppIContract.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Операции" Height="450" Width="800">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="200"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+
+        <!-- Список операций -->
+        <ListBox x:Name="OperationsListBox" 
+                 Grid.Column="0" 
+                 Margin="10"
+                 SelectedIndex="0"
+                 SelectionChanged="OperationsListBox_SelectionChanged">
+            
+            <ListBoxItem Content="Operation1"/>
+            <ListBoxItem Content="Operation2"/>
+            <ListBoxItem Content="Operation3"/>
+        </ListBox>
+
+        <!-- Карточка операции -->
+        <Border Grid.Column="1"
+                Margin="10"
+                Padding="20"
+                Background="#FFF"
+                CornerRadius="8"
+                BorderBrush="#DDD"
+                BorderThickness="1">
+            
+            <StackPanel>
+                <!-- Панель ввода параметров (заглушки) -->
+                <TextBlock Text="Параметры операции:"
+                           FontWeight="Bold"
+                           Margin="0,0,0,10" />
+                
+                <StackPanel Orientation="Horizontal"
+                            Margin="0,0,0,10">
+                    
+                    <TextBlock Text="Параметр 1:"
+                               VerticalAlignment="Center" />
+                    
+                    <TextBox Width="120"
+                             Margin="10,0,0,0" />
+                </StackPanel>
+                
+                <StackPanel Orientation="Horizontal"
+                            Margin="0,0,0,10">
+                    
+                    <TextBlock Text="Параметр 2:"
+                               VerticalAlignment="Center" />
+                    
+                    <TextBox Width="120"
+                             Margin="10,0,0,0" />
+                </StackPanel>
+
+                <!-- Кнопка "Выполнить" -->
+                <Button Content="Выполнить"
+                        Width="120"
+                        Margin="0,0,0,10" />
+                
+                <!-- Индикаторы Pre/Post -->
+                <StackPanel Orientation="Horizontal"
+                            Margin="0,0,0,10">
+                    
+                    <StackPanel Orientation="Horizontal"
+                                Margin="0,0,20,0">
+
+                        <Ellipse Width="20"
+                                 Height="20"
+                                 Fill="Red"
+                                 x:Name="PreIndicator" />
+
+                        <TextBlock Text="Pre"
+                                   Margin="5,0,0,0"
+                                   VerticalAlignment="Center" />
+                    </StackPanel>
+
+                    <StackPanel Orientation="Horizontal">
+                        <Ellipse Width="20"
+                                 Height="20"
+                                 Fill="Red"
+                                 x:Name="PostIndicator" />
+
+                        <TextBlock Text="Post"
+                                   Margin="5,0,0,0"
+                                   VerticalAlignment="Center" />
+                    </StackPanel>
+                </StackPanel>
+
+                <!-- Кнопка "Показать контракт" -->
+                <Button Content="Показать контракт"
+                        Width="180" />
+            </StackPanel>
+        </Border>
+    </Grid>
+</Window>

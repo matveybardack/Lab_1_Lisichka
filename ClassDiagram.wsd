@@ -1,0 +1,151 @@
+@startuml
+skinparam backgroundColor #FFFFFF
+skinparam classBackgroundColor #F8F9FA
+skinparam classBorderColor #343A40
+skinparam packageBackgroundColor #E9ECEF
+skinparam packageBorderColor #6C757D
+
+title Диаграмма классов - Текстовый конвейер с контрактами
+
+package "Model" as model {
+    class TextPipeline {
+        +{static} RemoveExtraSpaces(string input) : string
+        +{static} ToLowerCase(string input) : string
+        +{static} RemoveEmptyLines(string input) : string
+    }
+}
+
+package "ViewModel" as viewmodel {
+    abstract class ViewModelBase {
+        +PropertyChanged : event
+        #{abstract} OnPropertyChanged(string propertyName)
+    }
+    
+    class MainViewModel {
+        +Operations : ObservableCollection<IOperationViewModel>
+        +SelectedOperation : IOperationViewModel
+        +MainViewModel()
+    }
+    
+    interface IOperationViewModel {
+        +Name : string
+        +InputText : string
+        +OutputText : string
+        +ExecuteCommand : ICommand
+        +ShowContractCommand : ICommand
+        +PreConditionSatisfied : bool
+        +PostConditionSatisfied : bool
+        +ContractDescription : string
+        +ValidExample : string
+        +InvalidExample : string
+    }
+    
+    class TrimSpacesOperationViewModel {
+        -_inputText : string
+        -_outputText : string
+        -_operationExecuted : bool
+        +Name : string
+        +InputText : string
+        +OutputText : string
+        +PreConditionSatisfied : bool
+        +PostConditionSatisfied : bool
+        +ExecuteCommand : ICommand
+        +ShowContractCommand : ICommand
+        +ContractDescription : string
+        +ValidExample : string
+        +InvalidExample : string
+    }
+    
+    class LowerCaseOperationViewModel {
+        -_inputText : string
+        -_outputText : string
+        -_operationExecuted : bool
+        +Name : string
+        +InputText : string
+        +OutputText : string
+        +PreConditionSatisfied : bool
+        +PostConditionSatisfied : bool
+        +ExecuteCommand : ICommand
+        +ShowContractCommand : ICommand
+        +ContractDescription : string
+        +ValidExample : string
+        +InvalidExample : string
+    }
+    
+    class RemoveEmptyLinesOperationViewModel {
+        -_inputText : string
+        -_outputText : string
+        -_operationExecuted : bool
+        +Name : string
+        +InputText : string
+        +OutputText : string
+        +PreConditionSatisfied : bool
+        +PostConditionSatisfied : bool
+        +ExecuteCommand : ICommand
+        +ShowContractCommand : ICommand
+        +ContractDescription : string
+        +ValidExample : string
+        +InvalidExample : string
+    }
+    
+    class RelayCommand {
+        -_execute : Action
+        -_canExecute : Func<bool>
+        +RelayCommand(Action execute, Func<bool> canExecute)
+        +CanExecute(object parameter) : bool
+        +Execute(object parameter) : void
+        +CanExecuteChanged : event
+    }
+    
+    class BoolToColorConverter {
+        +Convert(object value, Type targetType, object parameter, CultureInfo culture) : object
+        +ConvertBack(object value, Type targetType, object parameter, CultureInfo culture) : object
+    }
+}
+
+package "View" as view {
+    class MainWindow {
+        +MainWindow()
+    }
+    
+    class App {
+    }
+}
+
+' Наследование
+ViewModelBase <|-- MainViewModel
+ViewModelBase <|-- TrimSpacesOperationViewModel
+ViewModelBase <|-- LowerCaseOperationViewModel
+ViewModelBase <|-- RemoveEmptyLinesOperationViewModel
+
+' Реализация интерфейсов
+IOperationViewModel <|.. TrimSpacesOperationViewModel
+IOperationViewModel <|.. LowerCaseOperationViewModel
+IOperationViewModel <|.. RemoveEmptyLinesOperationViewModel
+
+' Зависимости
+MainViewModel --> IOperationViewModel : uses
+MainViewModel --> TrimSpacesOperationViewModel : creates
+MainViewModel --> LowerCaseOperationViewModel : creates
+MainViewModel --> RemoveEmptyLinesOperationViewModel : creates
+
+TrimSpacesOperationViewModel --> TextPipeline : uses
+LowerCaseOperationViewModel --> TextPipeline : uses
+RemoveEmptyLinesOperationViewModel --> TextPipeline : uses
+
+TrimSpacesOperationViewModel --> RelayCommand : uses
+LowerCaseOperationViewModel --> RelayCommand : uses
+RemoveEmptyLinesOperationViewModel --> RelayCommand : uses
+
+MainWindow --> MainViewModel : uses
+App --> MainWindow : creates
+
+' Примечания
+note right of TextPipeline : Статический класс с бизнес-логикой\nи контрактами (Pre/Post conditions)
+note right of ViewModelBase : Базовый класс для всех ViewModel\nс поддержкой INotifyPropertyChanged
+note right of IOperationViewModel : Интерфейс для операций\nтекстового конвейера
+note right of MainViewModel : Главная ViewModel,\nуправляет списком операций
+note right of RelayCommand : Реализация ICommand\nдля привязки команд в XAML
+note right of BoolToColorConverter : Конвертер для преобразования\nboolean в цвета индикаторов
+
+@enduml

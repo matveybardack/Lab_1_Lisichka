@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Diagnostics;
 using System.Text.RegularExpressions;
+using CommunityToolkit.Diagnostics;
 
 namespace ClassLibrary
 {
@@ -14,7 +15,7 @@ namespace ClassLibrary
         public static string RemoveExtraSpaces(string input)
         {
             // PRECONDITION: Проверка условий ДО выполнения операции
-            Guard.Require(input != null, "Входная строка не должна быть null");
+            Guard.IsNotNullOrWhiteSpace(input);
 
             // ЛОГИКА ОПЕРАЦИИ: Основная бизнес-логика
             // Заменяем множественные пробелы на один и обрезаем края
@@ -32,7 +33,7 @@ namespace ClassLibrary
         public static string ToLowerCase(string input)
         {
             // PRECONDITION
-            Guard.Require(input != null, "Входная строка не должна быть null");
+            Guard.IsNotNullOrWhiteSpace(input);
 
             // ЛОГИКА ОПЕРАЦИИ: Преобразование всех символов к нижнему регистру
             string result = input.ToLower();
@@ -48,7 +49,7 @@ namespace ClassLibrary
         public static string RemoveEmptyLines(string input)
         {
             // PRECONDITION
-            Guard.Require(input != null, "Входная строка не должна быть null");
+            Guard.IsNotNullOrWhiteSpace(input);
 
             // ЛОГИКА ОПЕРАЦИИ: 
             // 1. Разбиваем текст на строки
@@ -62,25 +63,6 @@ namespace ClassLibrary
             Debug.Assert(!result.Contains(Environment.NewLine + Environment.NewLine), "Не должно быть пустых строк");
 
             return result;
-        }
-    }
-
-    /// <summary>
-    /// Вспомогательный класс для проверки предусловий (Preconditions)
-    /// Выбрасывает исключения при нарушении контрактов
-    /// </summary>
-    public static class Guard
-    {
-        /// <summary>
-        /// Проверяет условие и выбрасывает исключение если оно ложно
-        /// </summary>
-        /// <param name="condition">Условие для проверки</param>
-        /// <param name="message">Сообщение об ошибке</param>
-        /// <exception cref="ArgumentException">Выбрасывается если условие ложно</exception>
-        public static void Require(bool condition, string message)
-        {
-            if (!condition)
-                throw new ArgumentException($"Precondition failed: {message}");
         }
     }
 }
